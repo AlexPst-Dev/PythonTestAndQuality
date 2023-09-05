@@ -6,11 +6,15 @@ import string
 
 def generate():
     input_value = entry_nb_caraters.get()
-    if input_value.isdigit() and (
-        include_digits.get()
-        or include_lowercase.get()
-        or include_symbols.get()
-        or include_uppercase.get()
+    if (
+        input_value.isdigit()
+        and int(input_value) < 25
+        and (
+            include_digits.get()
+            or include_lowercase.get()
+            or include_symbols.get()
+            or include_uppercase.get()
+        )
     ):
         # Si input_value est un nombre, convertissez-le en entier
         nb_caracters = int(input_value)
@@ -27,13 +31,18 @@ def generate():
         entry_result.insert(
             0, password
         )  # Insérez le mot de passe généré dans entry_result
+        # Effacez le message d'erreur s'il existe
+        labl_error.config(text="")
     else:
-        print("Error: Please enter a valid number of characters.")
+        # Affichez le message d'erreur dans le label
+        labl_error.config(
+            text="Error: Please enter a valid number and at least one option"
+        )
 
 
 # Initialisation
 base = Tk()
-base.geometry("500x500")
+base.geometry("500x550")
 
 # Title
 base.title("Registration Form")
@@ -83,10 +92,13 @@ checkbox_digits.place(x=10, y=325)
 checkbox_symbols = Checkbutton(base, text="Symbols", variable=include_symbols)
 checkbox_symbols.place(x=10, y=350)
 
+# Error message
+labl_error = Label(base, text="", font=("bold", 10), fg="red")
+labl_error.place(x=15, y=400)
 
 # Password generated result input
 entry_result = Entry(base)
-entry_result.place(x=10, y=400, width=480)
+entry_result.place(x=10, y=450, width=480)
 
 # Button for a new generation
 Button(
@@ -94,5 +106,5 @@ Button(
     text="Generate",
     width=20,
     command=generate,
-).place(x=180, y=450)
+).place(x=180, y=500)
 base.mainloop()
