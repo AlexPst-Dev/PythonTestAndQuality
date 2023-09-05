@@ -1,5 +1,22 @@
 from tkinter import *
 from tkinter import ttk
+import passwordGenerator
+import string
+
+
+def generate():
+    input_value = entry_nb_caraters.get()
+    if input_value.isdigit():
+        # Si input_value est un nombre, convertissez-le en entier
+        nb_caracters = int(input_value)
+        password = passwordGenerator.generate_password(nb_caracters)
+        entry_result.delete(0, END)  # Effacez le texte précédent dans entry_result
+        entry_result.insert(
+            0, password
+        )  # Insérez le mot de passe généré dans entry_result
+    else:
+        print("Error: Please enter a valid number of characters.")
+
 
 # Initialisation
 base = Tk()
@@ -30,5 +47,10 @@ entry_result = Entry(base)
 entry_result.place(x=10, y=250, width=250)
 
 # Button for a new generation
-Button(base, text="Generate", width=20).place(x=180, y=305)
+Button(
+    base,
+    text="Generate",
+    width=20,
+    command=generate,
+).place(x=180, y=305)
 base.mainloop()
