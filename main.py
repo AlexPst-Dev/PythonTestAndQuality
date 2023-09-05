@@ -23,11 +23,12 @@ labl_hash = Label(base, text="Select a hash protocole (optional)", font=("bold",
 labl_hash.place(x=15, y=140)
 Radiobutton(base, text="md5", padx=5, value="md5").place(x=10, y=165)
 Radiobutton(base, text="sha256", padx=5, value="sha256").place(x=10, y=185)
+Radiobutton(base, text="None", padx=5, value="none").place(x=10, y=205)
 
 # Password generated result input
 entry_result = Entry(base)
-entry_result.place(x=10, y=220, width=250)
+entry_result.place(x=10, y=250, width=250)
 
 # Button for a new generation
-Button(base, text="Generate", width=20).place(x=180, y=275)
+Button(base, text="Generate", width=20).place(x=180, y=305)
 base.mainloop()
