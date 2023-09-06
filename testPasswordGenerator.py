@@ -34,6 +34,15 @@ class TestPasswordGenerator(unittest.TestCase):
         with self.assertRaises(ValueError):
             passwordGenerator.generate_password(8, use_lowercase=False, use_uppercase=False, use_digits=False, use_symbols=False)
 
+    def test_generate_password_hash_sha256(self):
+        # Vérifiez que le mot de passe généré est correctement haché
+        password = passwordGenerator.generate_password(8, use_hash="SHA-256")
+        self.assertEqual(len(password), 64)
+    
+    def test_generate_password_hash_md5(self):
+        # Vérifiez que le mot de passe généré est correctement haché
+        password = passwordGenerator.generate_password(8, use_hash="MD5")
+        self.assertEqual(len(password), 32)
 
 if __name__ == '__main__':
     unittest.main()
