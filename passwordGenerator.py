@@ -17,7 +17,6 @@ def generate_password(
     use_uppercase=True,
     use_digits=True,
     use_symbols=True,
-    use_hash="none",
 ):
     if (
         length < 25
@@ -38,21 +37,21 @@ def generate_password(
             raise ValueError("No characters to choose from!")
 
         password = "".join(random.choice(characters) for _ in range(length))
-        if use_hash == "SHA-256":
-            password = password.encode("utf-8")
-            hasherSHA256.update(password)
-            hashed_password = hasherSHA256.hexdigest()
-            return hashed_password
-        elif use_hash == "MD5":
-            password = password.encode("utf-8")
-            hasherMD5.update(password)
-            hashed_password = hasherMD5.hexdigest()
-            return hashed_password
-        else:
-            return password
+        return password
     else:
         return "error"
 
+def SHA_256(password):
+    password = password.encode("utf-8")
+    hasherSHA256.update(password)
+    hashed_password = hasherSHA256.hexdigest()
+    return hashed_password
+
+def MD5(password):
+    password = password.encode("utf-8")
+    hasherMD5.update(password)
+    hashed_password = hasherMD5.hexdigest()
+    return hashed_password
 
 def evaluate_password(password):
     score = 0
@@ -104,4 +103,4 @@ def evaluate_password(password):
 
 
 if __name__ == "__main__":
-    print(generate_password(16, use_lowercase=True, use_uppercase=True, use_digits=True, use_symbols=True, use_hash="SHA-256"))
+    print(generate_password(16, use_lowercase=True, use_uppercase=True, use_digits=True, use_symbols=True))
