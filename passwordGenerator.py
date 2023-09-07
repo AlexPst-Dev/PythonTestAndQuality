@@ -62,7 +62,7 @@ def evaluate_password(password):
     length = len(password)
 
     if length <= 8:
-        return score  # Mot de passe très faible
+        score += 3  # Mot de passe très faible
     elif 8 < length <= 10:
         score += 5  # Mot de passe faible
     elif 10 < length <= 12:
@@ -83,7 +83,7 @@ def evaluate_password(password):
         types_of_characters += 1
 
     if types_of_characters == 1:
-        return "Mot de passe très faible"
+        return "Très faible"
     elif types_of_characters == 2:
         score *= 2
     elif types_of_characters == 3:
@@ -92,17 +92,15 @@ def evaluate_password(password):
         score *= 8
 
     if score < 20:
-        return "Mot de passe très faible"
+        return "Très faible"
     elif 20 <= score < 60:
-        return "Mot de passe faible"
+        return "Faible"
     elif 60 <= score < 100:
-        return "Mot de passe moyen"
-    elif 100 <= score < 160:
-        return "Mot de passe fort"
-    elif 160 <= score < 260:
-        return "Mot de passe très fort"
-    else:
-        return "Mot de passe abusé wesh"
+        return "Moyen"
+    elif 100 <= score < 200:
+        return "Fort"
+    else :
+        return "Très fort"
 
 
 if __name__ == "__main__":
