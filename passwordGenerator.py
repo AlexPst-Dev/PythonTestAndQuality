@@ -39,5 +39,54 @@ def generate_password(length, use_lowercase=True, use_uppercase=True, use_digits
     else:
         return password
 
+def evaluate_password(password):
+    score = 0
+
+    length = len(password)
+
+    if length <= 8:
+        return score  # Mot de passe très faible
+    elif 8 < length <= 10:
+        score += 5  # Mot de passe faible
+    elif 10 < length <= 12:
+        score += 10  # Mot de passe moyen
+    elif 12 < length <= 16:
+        score += 20  # Mot de passe fort
+    elif length > 16:
+        score += 40  # Mot de passe très fort
+
+    types_of_characters = 0
+    if any(char.islower() for char in password):
+        types_of_characters += 1
+    if any(char.isupper() for char in password):
+        types_of_characters += 1
+    if any(char.isdigit() for char in password):
+        types_of_characters += 1
+    if any(not char.isalnum() for char in password):
+        types_of_characters += 1
+
+    if (types_of_characters == 1):
+        return 'Mot de passe très faible'
+    elif (types_of_characters == 2):
+        score *=2
+    elif (types_of_characters == 3):
+        score *=4
+    elif (types_of_characters == 4):
+        score *=8
+
+    if score < 20:
+        return 'Mot de passe très faible'
+    elif 20 <= score < 60:
+        return 'Mot de passe faible'
+    elif 60 <= score < 100:
+        return 'Mot de passe moyen'
+    elif 100 <= score < 160:
+        return 'Mot de passe fort'
+    elif 160 <= score < 260:
+        return 'Mot de passe très fort'
+    else:
+        return 'Mot de passe abusé wesh'
+
+
 if __name__ == "__main__":
-    print(generate_password(12, True, True, True, True, "SHA-256"))
+    print(generate_password(16, use_lowercase=True, use_uppercase=True, use_digits=True, use_symbols=True, use_hash="SHA-256"))
