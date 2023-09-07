@@ -20,7 +20,7 @@ def generate_password(
 ):
     if (
         length < 26
-        and length > 5
+        and length > 4
         and (use_lowercase or use_uppercase or use_symbols or use_digits)
     ):
         characters = ""
@@ -99,7 +99,7 @@ def evaluate_password(password):
         return "Moyen"
     elif 100 <= score < 200:
         return "Fort"
-    else :
+    else:
         return "Très fort"
 
 
