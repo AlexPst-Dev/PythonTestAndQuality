@@ -151,20 +151,27 @@ class Application:
             digits,
             symbols,
         )
-        hashed_password = "none"
-        if selected_hash == "MD5":
-            hashed_password = passwordGenerator.MD5(password)
-        elif selected_hash == "SHA-256":
-            hashed_password = passwordGenerator.SHA_256(password)
-
-        self.entry_result.delete(0, END)
-        self.entry_result.insert(0, password)
-
-        if hashed_password:
+        if password == "error":
+            self.labl_error.config(
+                text="Error: Please enter a valid number and at least one option"
+            )
+            self.entry_result.delete(0, END)
             self.entry_result_hashed.delete(0, END)
-            self.entry_result_hashed.insert(0, hashed_password)
+        else:
+            hashed_password = "none"
+            if selected_hash == "MD5":
+                hashed_password = passwordGenerator.MD5(password)
+            elif selected_hash == "SHA-256":
+                hashed_password = passwordGenerator.SHA_256(password)
 
-        self.labl_error.config(text="")  # Effacez le message d'erreur
+            self.entry_result.delete(0, END)
+            self.entry_result.insert(0, password)
+
+            if hashed_password:
+                self.entry_result_hashed.delete(0, END)
+                self.entry_result_hashed.insert(0, hashed_password)
+
+            self.labl_error.config(text="")  # Effacez le message d'erreur
 
         # input_value = entry_nb_caraters.get()
         # if (

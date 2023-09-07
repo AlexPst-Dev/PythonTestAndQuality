@@ -19,7 +19,7 @@ def generate_password(
     use_symbols=True,
 ):
     if (
-        length < 25
+        length < 26
         and length > 5
         and (use_lowercase or use_uppercase or use_symbols or use_digits)
     ):
@@ -41,17 +41,20 @@ def generate_password(
     else:
         return "error"
 
+
 def SHA_256(password):
     password = password.encode("utf-8")
     hasherSHA256.update(password)
     hashed_password = hasherSHA256.hexdigest()
     return hashed_password
 
+
 def MD5(password):
     password = password.encode("utf-8")
     hasherMD5.update(password)
     hashed_password = hasherMD5.hexdigest()
     return hashed_password
+
 
 def evaluate_password(password):
     score = 0
@@ -79,28 +82,36 @@ def evaluate_password(password):
     if any(not char.isalnum() for char in password):
         types_of_characters += 1
 
-    if (types_of_characters == 1):
-        return 'Mot de passe très faible'
-    elif (types_of_characters == 2):
-        score *=2
-    elif (types_of_characters == 3):
-        score *=4
-    elif (types_of_characters == 4):
-        score *=8
+    if types_of_characters == 1:
+        return "Mot de passe très faible"
+    elif types_of_characters == 2:
+        score *= 2
+    elif types_of_characters == 3:
+        score *= 4
+    elif types_of_characters == 4:
+        score *= 8
 
     if score < 20:
-        return 'Mot de passe très faible'
+        return "Mot de passe très faible"
     elif 20 <= score < 60:
-        return 'Mot de passe faible'
+        return "Mot de passe faible"
     elif 60 <= score < 100:
-        return 'Mot de passe moyen'
+        return "Mot de passe moyen"
     elif 100 <= score < 160:
-        return 'Mot de passe fort'
+        return "Mot de passe fort"
     elif 160 <= score < 260:
-        return 'Mot de passe très fort'
+        return "Mot de passe très fort"
     else:
-        return 'Mot de passe abusé wesh'
+        return "Mot de passe abusé wesh"
 
 
 if __name__ == "__main__":
-    print(generate_password(16, use_lowercase=True, use_uppercase=True, use_digits=True, use_symbols=True))
+    print(
+        generate_password(
+            16,
+            use_lowercase=True,
+            use_uppercase=True,
+            use_digits=True,
+            use_symbols=True,
+        )
+    )
