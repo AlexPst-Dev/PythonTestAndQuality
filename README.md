@@ -20,3 +20,13 @@ Le deuxième objectif est de garantir une suite de tests sur cette application.
 | Test de la présence d'option dans la génération de mdp | Empêcher la création de mot de passe si aucun paramêtre n'est coché | Importation de unittest, Installation de Python 3.11.5 | 1.6 | L'utilisateur ne coche aucune cases | Le systeme empeche la création  du mot de passe | N/A | Un message d'erreur est affiché | OK |
 | Test du hashage SHA-256 dans la génération de mdp | Vérifier la conformité du hashage par rapport au hashage 'SHA-256' si la case 'SHA-256' est cochée | Importation de unittest, Installation de Python 3.11.5 | 1.7.1 | L'utilisateur sélectionne le radioButton 'SHA-256' | Le textField en bas de page montre un mot de passe hashé respectant le protocole 'SHA-256' | N/A | Un mot de passe hashé conforme au format 'SHA-256' est généré | OK |
 | Test du hashage MD5 dans la génération de mdp | Vérifier la conformité du hashage par rapport au hashage 'MD5' si la case 'MD5' est cochée | Importation de unittest, Installation de Python 3.11.5 | 1.7.2 | L'utilisateur sélectionne le radioButton 'MD5' | Le textField en bas de page montre un mot de passe hashé respectant le protocole 'MD5' | N/A | Un mot de passe hashé conforme au format 'MD5' est généré | OK |
+
+## Bugs rencontrés:
+
+### Bug 1:
+#### Description:
+Lors de la génération d'un mot de passe, lorsque le label d'évaluation prend la valeur "Très faible", et que par la suite, lors de la regénération d'un mot de passe, le label prend la valeur "Faible", le précédent label reste affiché en arrière plan.
+#### Cause:
+Le label n'est pas vidé lors de la regénération d'un mot de passe.
+#### Correction:
+Vidage du label lors de la regénération d'un mot de passe. Puis affichage du nouveau label.

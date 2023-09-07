@@ -19,6 +19,7 @@ class Application:
     checkbox_symbols = None
     labl_error = None
     generate_button = None
+    labl_evaluation = None
 
     include_lowercase = None
     include_uppercase = None
@@ -38,6 +39,7 @@ class Application:
         self.load_error_msg()
         self.load_entry_result()
         self.load_btn_generation()
+        self.load_evaluation()
 
     # Initialisation
     def load_base(self):
@@ -136,6 +138,14 @@ class Application:
             command=self.generate,
         ).place(x=180, y=500)
 
+    def load_evaluation(self):
+        self.labl_evaluation = Label(
+            self.base, 
+            text="", 
+            font=("bold", 10)
+        )
+        self.labl_evaluation.place(x=300, y=350)
+
     def generate(self):
         password_length = self.entry_nb_caraters.get()
         lowercase = self.include_lowercase.get()
@@ -143,6 +153,7 @@ class Application:
         digits = self.include_digits.get()
         symbols = self.include_symbols.get()
         selected_hash = self.var_hash.get()  # Accédez à la variable var_hash
+        self.labl_evaluation.config(text="")
 
         password = passwordGenerator.generate_password(
             int(password_length),
@@ -172,6 +183,7 @@ class Application:
                 self.entry_result_hashed.insert(0, hashed_password)
 
             self.labl_error.config(text="")  # Effacez le message d'erreur
+            self.labl_evaluation.config(text=passwordGenerator.evaluate_password(password))
 
         # input_value = entry_nb_caraters.get()
         # if (
