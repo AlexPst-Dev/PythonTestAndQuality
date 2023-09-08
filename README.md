@@ -36,6 +36,11 @@ Le label n'est pas vidé lors de la regénération d'un mot de passe.
 Vidage du label lors de la regénération d'un mot de passe. Puis affichage du nouveau label.
 
 ## Commandes
+Pour lancer l'application :
+```
+python main.py
+```
+
 Pour lancer un fichier de test :
 ```
 python -m unittest [nom_du_fichier]
