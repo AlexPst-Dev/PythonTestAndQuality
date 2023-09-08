@@ -180,42 +180,50 @@ class Application:
         selected_hash = self.var_hash.get()  # Accédez à la variable var_hash
         self.labl_evaluation.config(text="")
 
-        # Call generate_password from passwordGenerator.py
-        password = passwordGenerator.generate_password(
-            int(password_length),
-            lowercase,
-            uppercase,
-            digits,
-            symbols,
-        )
-        # If generate_password return an error value
-        if password == "error":
+        # Check if password_length is a valid insput
+        if password_length.isdigit() and password_length != "":
+            # Call generate_password from passwordGenerator.py
+            password = passwordGenerator.generate_password(
+                int(password_length),
+                lowercase,
+                uppercase,
+                digits,
+                symbols,
+            )
+            # If generate_password return an error value
+            if password == "error":
+                self.labl_error.config(
+                    text="Error: Please enter a valid number and at least one option"
+                )
+                self.entry_result.delete(0, END)
+                self.entry_result_hashed.delete(0, END)
+            # If user's selected values and options are compliant, hash the password
+            else:
+                hashed_password = "none"
+                if selected_hash == "MD5":
+                    hashed_password = passwordGenerator.MD5(password)
+                elif selected_hash == "SHA-256":
+                    hashed_password = passwordGenerator.SHA_256(password)
+
+                self.entry_result.delete(0, END)
+                self.entry_result.insert(0, password)
+
+                if hashed_password:
+                    self.entry_result_hashed.delete(0, END)
+                    self.entry_result_hashed.insert(0, hashed_password)
+
+                # Delete error message
+                self.labl_error.config(text="")
+                # Evaluate the user's password
+                self.labl_evaluation.config(
+                    text=passwordGenerator.evaluate_password(password)
+                )
+        else:
             self.labl_error.config(
                 text="Error: Please enter a valid number and at least one option"
             )
             self.entry_result.delete(0, END)
             self.entry_result_hashed.delete(0, END)
-        # If user's selected values and options are compliant, hash the password
-        else:
-            hashed_password = "none"
-            if selected_hash == "MD5":
-                hashed_password = passwordGenerator.MD5(password)
-            elif selected_hash == "SHA-256":
-                hashed_password = passwordGenerator.SHA_256(password)
-
-            self.entry_result.delete(0, END)
-            self.entry_result.insert(0, password)
-
-            if hashed_password:
-                self.entry_result_hashed.delete(0, END)
-                self.entry_result_hashed.insert(0, hashed_password)
-
-            # Delete error message
-            self.labl_error.config(text="")
-            # Evaluate the user's password
-            self.labl_evaluation.config(
-                text=passwordGenerator.evaluate_password(password)
-            )
 
     #
     # Lunch the main loop of the application
