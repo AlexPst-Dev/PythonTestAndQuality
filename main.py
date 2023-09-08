@@ -3,11 +3,15 @@ from tkinter import ttk
 import tkinter
 import passwordGenerator
 from passwordGenerator import generate_password
-import string
 
 
+#
+# Class Application : App's Interface
+#
 class Application:
-    # Définition des entités de l'application
+    #
+    # Defining entities on the interface
+    #
     labl_title = None
     labl_nb_caracters = None
     entry_nb_caraters = Entry
@@ -27,11 +31,13 @@ class Application:
     include_symbols = None
     selected_hash = None
 
+    #
+    # Init function to initialise all the elements
+    #
     def __init__(self) -> None:
         self.base = tkinter.Tk()
-        # self.generate()
-
         self.load_base()
+
         self.load_title()
         self.load_caracter_input()
         self.load_hash()
@@ -41,11 +47,15 @@ class Application:
         self.load_btn_generation()
         self.load_evaluation()
 
-    # Initialisation
+    #
+    # Defining the size of the app
+    #
     def load_base(self):
         self.base.geometry("500x550")
 
-    # Title
+    #
+    # Set title
+    #
     def load_title(self):
         self.base.title("Password Generator")
         self.labl_title = Label(
@@ -53,7 +63,9 @@ class Application:
         )
         self.labl_title.place(x=90, y=53)
 
-    # Number of caracters input
+    #
+    # Set number of caracter input
+    #
     def load_caracter_input(self):
         self.labl_nb_caracters = Label(
             self.base, text="Number of caracters :", width=20, font=("bold", 10)
@@ -62,9 +74,11 @@ class Application:
         self.entry_nb_caraters = Entry(self.base)
         self.entry_nb_caraters.place(x=200, y=100, width=40)
 
-    # Radios button for hash
+    #
+    # Set radio buttons for hash
+    #
     def load_hash(self):
-        # Créez une variable StringVar pour stocker la valeur sélectionnée dans les boutons radio hash
+        # var_hash is used to save a default value for the selected hash
         self.var_hash = StringVar(value="MD5")
         # List of available hash
         self.labl_hash = Label(
@@ -86,11 +100,14 @@ class Application:
             variable=self.var_hash,
         ).place(x=10, y=185)
 
-    # Checkbox for caracter options
+    #
+    # Set checkbox for caracter options
+    #
     def load_caracter_options(self):
         self.labl_checkbox = Label(self.base, text="Select options", font=("bold", 10))
         self.labl_checkbox.place(x=15, y=250)
 
+        # Check the two first by default
         self.include_lowercase = BooleanVar(value=True)
         self.include_uppercase = BooleanVar(value=True)
         self.include_digits = BooleanVar()
@@ -116,20 +133,27 @@ class Application:
         )
         self.checkbox_symbols.place(x=10, y=350)
 
+    #
+    # Set error message
+    #
     def load_error_msg(self):
-        # Error message
         self.labl_error = Label(self.base, text="", font=("bold", 10), fg="red")
         self.labl_error.place(x=15, y=400)
 
+    #
+    # Set password generated result input
+    #
     def load_entry_result(self):
-        # Password generated result input
+        # Password
         self.entry_result = Entry(self.base)
         self.entry_result.place(x=10, y=420, width=480)
         # Password hashed
         self.entry_result_hashed = Entry(self.base)
         self.entry_result_hashed.place(x=10, y=450, width=480)
 
-    # Button for a new generation
+    #
+    # Set generation button for a new password
+    #
     def load_btn_generation(self):
         self.generate_button = Button(
             self.base,
@@ -138,15 +162,18 @@ class Application:
             command=self.generate,
         ).place(x=180, y=500)
 
+    #
+    # Set string for password evaluation
+    #
     def load_evaluation(self):
-        self.labl_evaluation = Label(
-            self.base, 
-            text="", 
-            font=("bold", 10)
-        )
+        self.labl_evaluation = Label(self.base, text="", font=("bold", 10))
         self.labl_evaluation.place(x=300, y=350)
 
+    #
+    # Generate function for password creation
+    #
     def generate(self):
+        # Get the values and options that the user set
         password_length = self.entry_nb_caraters.get()
         lowercase = self.include_lowercase.get()
         uppercase = self.include_uppercase.get()
@@ -155,6 +182,7 @@ class Application:
         selected_hash = self.var_hash.get()  # Accédez à la variable var_hash
         self.labl_evaluation.config(text="")
 
+        # Call generate_password from passwordGenerator.py
         password = passwordGenerator.generate_password(
             int(password_length),
             lowercase,
@@ -162,12 +190,14 @@ class Application:
             digits,
             symbols,
         )
+        # If generate_password return an error value
         if password == "error":
             self.labl_error.config(
                 text="Error: Please enter a valid number and at least one option"
             )
             self.entry_result.delete(0, END)
             self.entry_result_hashed.delete(0, END)
+        # If user's selected values and options are compliant, hash the password
         else:
             hashed_password = "none"
             if selected_hash == "MD5":
@@ -182,45 +212,16 @@ class Application:
                 self.entry_result_hashed.delete(0, END)
                 self.entry_result_hashed.insert(0, hashed_password)
 
-            self.labl_error.config(text="")  # Effacez le message d'erreur
-            self.labl_evaluation.config(text=passwordGenerator.evaluate_password(password))
+            # Delete error message
+            self.labl_error.config(text="")
+            # Evaluate the user's password
+            self.labl_evaluation.config(
+                text=passwordGenerator.evaluate_password(password)
+            )
 
-        # input_value = entry_nb_caraters.get()
-        # if (
-        #     input_value.isdigit()
-        #     and int(input_value) < 25
-        #     and int(input_value) > 5
-        #     and (
-        #         include_digits.get()
-        #         or include_lowercase.get()
-        #         or include_symbols.get()
-        #         or include_uppercase.get()
-        #     )
-        # ):
-        #     # Si input_value est un nombre, convertissez-le en entier
-        #     nb_caracters = int(input_value)
-        #     selected_hash = var_hash.get()
-        #     password = passwordGenerator.generate_password(
-        #         nb_caracters,
-        #         include_lowercase.get(),
-        #         include_uppercase.get(),
-        #         include_digits.get(),
-        #         include_symbols.get(),
-        #         selected_hash,
-        #     )
-        #     entry_result.delete(0, END)  # Effacez le texte précédent dans entry_result
-        #     entry_result.insert(
-        #         0, password
-        #     )  # Insérez le mot de passe généré dans entry_result
-        #     # Effacez le message d'erreur s'il existe
-        #     labl_error.config(text="")
-        # else:
-        #     # Affichez le message d'erreur dans le label
-        #     labl_error.config(
-        #         text="Error: Please enter a valid number and at least one option"
-        #     )
-
-    # Lancer la boucle principale de l'application
+    #
+    # Lunch the main loop of the application
+    #
     def run(self) -> None:
         self.base.mainloop()
 
