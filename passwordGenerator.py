@@ -2,15 +2,24 @@ import string
 import random
 import hashlib
 
+#
+# Set characters panel
+#
 lowercase_letters = string.ascii_lowercase
 uppercase_letters = string.ascii_uppercase
 digits = string.digits
 symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?/"
 
+#
+# Set hashers panel
+#
 hasherSHA256 = hashlib.sha256()  # SHA-256
 hasherMD5 = hashlib.md5()  # MD5
 
 
+#
+# function to generate password with the given length and the given characters options
+#
 def generate_password(
     length,
     use_lowercase=True,
@@ -42,6 +51,9 @@ def generate_password(
         return "error"
 
 
+#
+# function to hash the given password with the SHA_256 algorithm
+#
 def SHA_256(password):
     password = password.encode("utf-8")
     hasherSHA256.update(password)
@@ -49,6 +61,9 @@ def SHA_256(password):
     return hashed_password
 
 
+#
+# function to hash the given password with the MD5 algorithm
+#
 def MD5(password):
     password = password.encode("utf-8")
     hasherMD5.update(password)
@@ -56,32 +71,40 @@ def MD5(password):
     return hashed_password
 
 
+#
+# function to evaluate the given password
+#
 def evaluate_password(password):
     score = 0
 
     length = len(password)
 
     if length <= 8:
-        score += 3  # Mot de passe très faible
+        score += 3
     elif 8 < length <= 10:
-        score += 5  # Mot de passe faible
+        score += 5
     elif 10 < length <= 12:
-        score += 10  # Mot de passe moyen
+        score += 10
     elif 12 < length <= 16:
-        score += 20  # Mot de passe fort
+        score += 20
     elif length > 16:
-        score += 40  # Mot de passe très fort
+        score += 40
 
     types_of_characters = 0
+    # Check if the password contains lowercase letters
     if any(char.islower() for char in password):
         types_of_characters += 1
+    # Check if the password contains uppercase letters
     if any(char.isupper() for char in password):
         types_of_characters += 1
+    # Check if the password contains digits
     if any(char.isdigit() for char in password):
         types_of_characters += 1
+    # Check if the password contains symbols
     if any(not char.isalnum() for char in password):
         types_of_characters += 1
 
+    # If the password contains only one type of character, the score is very weak
     if types_of_characters == 1:
         return "Très faible"
     elif types_of_characters == 2:

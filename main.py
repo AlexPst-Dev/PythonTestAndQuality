@@ -1,8 +1,6 @@
 from tkinter import *
-from tkinter import ttk
 import tkinter
 import passwordGenerator
-from passwordGenerator import generate_password
 
 
 #
