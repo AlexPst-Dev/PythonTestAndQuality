@@ -34,3 +34,9 @@ Lors de la génération d'un mot de passe, lorsque le label d'évaluation prend 
 Le label n'est pas vidé lors de la regénération d'un mot de passe.
 #### Correction:
 Vidage du label lors de la regénération d'un mot de passe. Puis affichage du nouveau label.
+
+## Commandes
+Pour lancer un fichier de test :
+```
+python -m unittest [nom_du_fichier]
+```

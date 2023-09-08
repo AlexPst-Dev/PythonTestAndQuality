@@ -1,17 +1,26 @@
 import unittest
-import passwordGenerator
-import tkinter as tk
-import main  # Importez votre application principale
 from main import Application
 
 
+#
+# Class TestApplication : Automatic tests for the interface
+#
 class TestApplication(unittest.TestCase):
+    #
+    # Destroy the application after all the test
+    #
     def tearDown(self):
         self.tk.base.destroy()
 
+    #
+    # Launch the app
+    #
     def setUp(self):
         self.tk = Application()
 
+    #
+    # Test if the title of the app is the string expected
+    #
     def test_title(self):
         expected = "Password Generator"
         self.assertEqual(
@@ -20,7 +29,9 @@ class TestApplication(unittest.TestCase):
             "Title expected : {expected}",
         )
 
-    # Check for elements instanciation
+    #
+    # Test for the instanciation of the elements, check if there are not set to None type
+    #
     def test_instanciate_element(self):
         self.assertIsNotNone(self.tk.base)
         self.assertIsNotNone(self.tk.labl_title)
@@ -34,8 +45,10 @@ class TestApplication(unittest.TestCase):
         self.assertIsNotNone(self.tk.checkbox_symbols)
         self.assertIsNotNone(self.tk.labl_error)
 
-    # Check the default options are checked
-    def test_checkboxes_with_digits(self):
+    #
+    # Check if the default options are checked
+    #
+    def test_checkboxes(self):
         self.assertTrue(
             self.tk.include_lowercase.get(),
             "The lowercase checkbox has to be checked by default",
@@ -53,7 +66,9 @@ class TestApplication(unittest.TestCase):
             "The symbols checkbox has to not be checked by default",
         )
 
-    # Check the default radio bbutton for hash is on
+    #
+    # Check if the default radio button for hash is on
+    #
     def test_radio_button_hash(self):
         self.assertEqual(
             self.tk.var_hash.get(),
